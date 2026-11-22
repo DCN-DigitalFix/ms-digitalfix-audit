@@ -19,7 +19,7 @@ import cl.duoc.ms_digitalfix_audit.service.AuditService;
  * workorders publica. Por eso no hay POST/PATCH/DELETE aqui.
  */
 @RestController
-@RequestMapping("/api/audit")
+@RequestMapping("/api/v1/audit")
 public class AuditController {
 
     private final AuditService service;

@@ -74,7 +74,7 @@ repository/AuditEventRepository.java
 service/AuditService.java          idempotencia, timeline, publicación del registro
 dto/AuditEventView.java            forma expuesta por la API
 controller/
-  AuditController.java            /api/audit/events, /api/audit/orders/{id}/timeline
+  AuditController.java            /api/v1/audit/events, /api/v1/audit/orders/{id}/timeline
   HealthController.java           /api/health (público)
 exception/
   ErrorRecuperableException.java
@@ -116,8 +116,8 @@ Ambos endpoints piden rol `Admin` o `Auditor` y scope `OT.Read`.
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/api/audit/events?limite=50` | Últimos eventos registrados, más reciente primero |
-| GET | `/api/audit/orders/{ordenId}/timeline` | Eventos de una orden en orden cronológico; 404 si no hay ninguno |
+| GET | `/api/v1/audit/events?limite=50` | Últimos eventos registrados, más reciente primero |
+| GET | `/api/v1/audit/orders/{ordenId}/timeline` | Eventos de una orden en orden cronológico; 404 si no hay ninguno |
 | GET | `/api/health` | Público |
 
 ---
@@ -144,7 +144,7 @@ Queda en el puerto 8083. En Kafka UI (`http://localhost:8089`), producir en
 
 - El log muestra `[audit] evento e-1 de la orden OT-0001 guardado` y luego
   `registro ... publicado en digitalfix.audit.events`.
-- `GET /api/audit/orders/OT-0001/timeline` (con un token con rol Admin o
+- `GET /api/v1/audit/orders/OT-0001/timeline` (con un token con rol Admin o
   Auditor y scope `OT.Read`) devuelve el evento.
 - Reenviar el mismo mensaje (mismo `eventId`): el log muestra
   `ya registrado, se descarta el duplicado` y no aparece dos veces en el
