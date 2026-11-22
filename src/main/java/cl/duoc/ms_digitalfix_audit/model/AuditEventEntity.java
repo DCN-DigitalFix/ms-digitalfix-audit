@@ -1,4 +1,4 @@
-package cl.duoc.ms_digitalfix_audit.entity;
+package cl.duoc.ms_digitalfix_audit.model;
 
 import java.time.Instant;
 

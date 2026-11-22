@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import cl.duoc.ms_digitalfix_audit.config.DigitalfixKafkaProperties;
-import cl.duoc.ms_digitalfix_audit.entity.AuditEventEntity;
+import cl.duoc.ms_digitalfix_audit.model.AuditEventEntity;
 import cl.duoc.ms_digitalfix_audit.messaging.AuditRecordEvent;
 
 /**

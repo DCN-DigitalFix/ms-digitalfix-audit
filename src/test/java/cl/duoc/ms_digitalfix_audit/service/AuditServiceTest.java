@@ -19,7 +19,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.Pageable;
 
 import cl.duoc.ms_digitalfix_audit.dto.AuditEventView;
-import cl.duoc.ms_digitalfix_audit.entity.AuditEventEntity;
+import cl.duoc.ms_digitalfix_audit.model.AuditEventEntity;
 import cl.duoc.ms_digitalfix_audit.exception.ErrorRecuperableException;
 import cl.duoc.ms_digitalfix_audit.exception.NotFoundException;
 import cl.duoc.ms_digitalfix_audit.messaging.WorkOrderEvent;

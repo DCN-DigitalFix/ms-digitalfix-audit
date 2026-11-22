@@ -3,7 +3,7 @@ package cl.duoc.ms_digitalfix_audit.messaging;
 import java.time.Instant;
 import java.util.UUID;
 
-import cl.duoc.ms_digitalfix_audit.entity.AuditEventEntity;
+import cl.duoc.ms_digitalfix_audit.model.AuditEventEntity;
 
 /**
  * Evento que audit publica en digitalfix.audit.events despues de guardar un

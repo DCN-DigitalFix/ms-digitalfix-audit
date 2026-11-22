@@ -2,7 +2,7 @@ package cl.duoc.ms_digitalfix_audit.dto;
 
 import java.time.Instant;
 
-import cl.duoc.ms_digitalfix_audit.entity.AuditEventEntity;
+import cl.duoc.ms_digitalfix_audit.model.AuditEventEntity;
 
 /** Forma expuesta por la API. Separada de la entidad para no filtrar detalles de persistencia. */
 public record AuditEventView(

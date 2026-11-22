@@ -69,7 +69,7 @@ messaging/
   WorkOrderEventParser.java        valida y convierte el payload crudo
   consumer/WorkOrderEventConsumer.java
   producer/AuditEventPublisher.java
-entity/AuditEventEntity.java       eventId como clave primaria
+model/AuditEventEntity.java        eventId como clave primaria
 repository/AuditEventRepository.java
 service/AuditService.java          idempotencia, timeline, publicación del registro
 dto/AuditEventView.java            forma expuesta por la API
