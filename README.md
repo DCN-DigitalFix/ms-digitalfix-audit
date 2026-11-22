@@ -160,12 +160,24 @@ Variables de entorno para apuntar a otro clúster:
 
 ---
 
+## Pruebas de integración
+
+`WorkOrderToAuditIntegrationTest` levanta un broker Kafka embebido
+(`@EmbeddedKafka`) y publica mensajes con la forma exacta del contrato de
+`ms-digitalfix-workorders`, sin mockear nada de la cadena de consumo: pasa
+por el `@KafkaListener` real, el parser real y la persistencia real en H2.
+Cubre el caso feliz (el evento queda guardado) y el caso de un mensaje
+corrupto seguido de uno válido (el consumidor no se atasca con el inválido y
+sigue procesando). Corre junto con el resto de `./mvnw clean test`, no
+necesita Docker.
+
+---
+
 ## Pendiente
 
-- Segundo consumidor para `digitalfix.audit.events` en otro servicio (notify
-  o report), que es quien le daría uso real al registro que audit publica.
-- Pantalla de Auditoría en `DigitalFix-Frontend` (hoy `audit.ts` es un
-  placeholder).
+- `ms-digitalfix-report` ya tiene el segundo consumidor para
+  `digitalfix.audit.events` (grupo `report-audit-trail`): el registro que
+  audit publica ya tiene un consumidor real.
 - Despliegue en AWS: la instancia necesita memoria suficiente para 3
   Zookeeper + 3 brokers, y falta la ruta en el API Gateway.
 - Migraciones de esquema en vez de `ddl-auto: update`.
