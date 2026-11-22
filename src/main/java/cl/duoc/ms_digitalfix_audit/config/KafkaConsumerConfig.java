@@ -8,6 +8,7 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -49,6 +50,7 @@ public class KafkaConsumerConfig {
 
     private final DigitalfixKafkaProperties props;
 
+    @Autowired
     public KafkaConsumerConfig(DigitalfixKafkaProperties props) {
         this.props = props;
     }

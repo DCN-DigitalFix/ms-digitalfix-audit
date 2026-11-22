@@ -3,6 +3,7 @@ package cl.duoc.ms_digitalfix_audit.messaging.consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ public class WorkOrderEventConsumer {
     private final WorkOrderEventParser parser;
     private final AuditService service;
 
+    @Autowired
     public WorkOrderEventConsumer(WorkOrderEventParser parser, AuditService service) {
         this.parser = parser;
         this.service = service;

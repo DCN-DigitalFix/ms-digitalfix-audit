@@ -2,6 +2,7 @@ package cl.duoc.ms_digitalfix_audit.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cl.duoc.ms_digitalfix_audit.exception.ErrorNoRecuperableException;
@@ -21,6 +22,7 @@ public class WorkOrderEventParser {
 
     private final ObjectMapper mapper;
 
+    @Autowired
     public WorkOrderEventParser(ObjectMapper mapper) {
         this.mapper = mapper;
     }

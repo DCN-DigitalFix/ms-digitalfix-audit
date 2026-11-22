@@ -2,6 +2,7 @@ package cl.duoc.ms_digitalfix_audit.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ public class AuditController {
 
     private final AuditService service;
 
+    @Autowired
     public AuditController(AuditService service) {
         this.service = service;
     }
