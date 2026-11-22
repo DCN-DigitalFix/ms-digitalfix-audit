@@ -1,0 +1,55 @@
+server:
+  port: 8083
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: ms-digitalfix-audit
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://login.microsoftonline.com/a6a0c27e-18a7-4209-bd1b-32338be5cb66/v2.0
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
+
+digitalfix:
+  security:
+    audiences:
+      - 8e5e408b-c101-4bc1-a5d3-01f702720462
+      - api://8e5e408b-c101-4bc1-a5d3-01f702720462
+  cors:
+    allowed-origins:
+      - http://localhost:4200
+      - https://44.206.195.117
+
+  # ---------------------------------------------------------------------------
+  # Kafka: audit es consumidor de digitalfix.workorders.events (lo que publica
+  # workorders) y productor de digitalfix.audit.events (el registro normalizado
+  # que deja despues de guardar cada evento, para que otros servicios como
+  # notify o report lo consuman sin acoplarse al formato interno de workorders).
+  #
+  # Ningun nombre de topico ni parametro de reintento se escribe a mano en el
+  # codigo: todo se inyecta via DigitalfixKafkaProperties.
+  # ---------------------------------------------------------------------------
+  kafka:
+    topics:
+      workorders-events: digitalfix.workorders.events
+      audit-events: digitalfix.audit.events
+    consumer:
+      # Una por particion (el topico se crea con 3 particiones y 3 replicas).
+      concurrencia: 3
+      # Agotados los reintentos con backoff exponencial, el mensaje se deriva a
+      # digitalfix.workorders.events.DLT. Un payload invalido no cuenta como
+      # reintento: se deriva de inmediato (ver ErrorNoRecuperableException).
+      max-reintentos: 3
+      backoff-inicial-ms: 1000
+      backoff-multiplicador: 2.0
+      backoff-maximo-ms: 8000
+
+logging:
+  level:
+    cl.duoc.ms_digitalfix_audit: INFO
