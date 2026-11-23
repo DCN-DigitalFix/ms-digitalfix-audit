@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import cl.duoc.ms_digitalfix_audit.dto.AuditEventView;
 import cl.duoc.ms_digitalfix_audit.model.AuditEventEntity;
@@ -44,7 +45,10 @@ class AuditServiceTest {
 
     @org.junit.jupiter.api.BeforeEach
     void crearServicio() {
-        service = new AuditService(repository, publisher);
+        // AuditService se inyecta por campo: no tiene constructor que invocar.
+        service = new AuditService();
+        ReflectionTestUtils.setField(service, "repository", repository);
+        ReflectionTestUtils.setField(service, "publisher", publisher);
     }
 
     @Test

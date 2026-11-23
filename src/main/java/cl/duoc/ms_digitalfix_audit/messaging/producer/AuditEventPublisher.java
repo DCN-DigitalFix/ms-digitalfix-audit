@@ -27,22 +27,18 @@ public class AuditEventPublisher {
 
     private static final Logger log = LoggerFactory.getLogger(AuditEventPublisher.class);
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper mapper;
-    private final String topicoAuditEvents;
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public AuditEventPublisher(
-            KafkaTemplate<String, String> kafkaTemplate,
-            ObjectMapper mapper,
-            DigitalfixKafkaProperties props) {
-        this.kafkaTemplate = kafkaTemplate;
-        this.mapper = mapper;
-        this.topicoAuditEvents = props.topics().auditEvents();
-    }
+    private ObjectMapper mapper;
+
+    @Autowired
+    private DigitalfixKafkaProperties props;
 
     public void publicarRegistroDeAuditoria(AuditEventEntity entidad) {
         AuditRecordEvent evento = AuditRecordEvent.de(entidad);
+        String topicoAuditEvents = props.topics().auditEvents();
 
         String payload;
         try {

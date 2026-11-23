@@ -32,14 +32,11 @@ public class AuditService {
     private static final int LIMITE_MINIMO = 1;
     private static final int LIMITE_MAXIMO = 500;
 
-    private final AuditEventRepository repository;
-    private final AuditEventPublisher publisher;
+    @Autowired
+    private AuditEventRepository repository;
 
     @Autowired
-    public AuditService(AuditEventRepository repository, AuditEventPublisher publisher) {
-        this.repository = repository;
-        this.publisher = publisher;
-    }
+    private AuditEventPublisher publisher;
 
     /**
      * Idempotente: Kafka entrega al menos una vez, asi que el mismo eventId

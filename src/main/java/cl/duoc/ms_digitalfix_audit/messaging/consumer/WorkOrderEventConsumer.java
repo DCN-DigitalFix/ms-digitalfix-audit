@@ -29,14 +29,11 @@ public class WorkOrderEventConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(WorkOrderEventConsumer.class);
 
-    private final WorkOrderEventParser parser;
-    private final AuditService service;
+    @Autowired
+    private WorkOrderEventParser parser;
 
     @Autowired
-    public WorkOrderEventConsumer(WorkOrderEventParser parser, AuditService service) {
-        this.parser = parser;
-        this.service = service;
-    }
+    private AuditService service;
 
     @KafkaListener(topics = "${digitalfix.kafka.topics.workorders-events}")
     public void recibir(ConsumerRecord<String, String> record) {

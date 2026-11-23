@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Instant;
 
@@ -31,9 +32,17 @@ class WorkOrderEventConsumerTest {
     @Mock
     private AuditService service;
 
+    /** WorkOrderEventConsumer se inyecta por campo: no tiene constructor que invocar. */
+    private WorkOrderEventConsumer crearConsumer() {
+        WorkOrderEventConsumer consumer = new WorkOrderEventConsumer();
+        ReflectionTestUtils.setField(consumer, "parser", parser);
+        ReflectionTestUtils.setField(consumer, "service", service);
+        return consumer;
+    }
+
     @Test
     void delegaElParseoYElGuardadoEnOrden() {
-        WorkOrderEventConsumer consumer = new WorkOrderEventConsumer(parser, service);
+        WorkOrderEventConsumer consumer = crearConsumer();
 
         WorkOrderEvent evento = new WorkOrderEvent(
                 "e-1", "ORDEN_CREADA", Instant.now(), "trace-1",
@@ -52,7 +61,7 @@ class WorkOrderEventConsumerTest {
 
     @Test
     void unPayloadInvalidoSePropagaSinLlamarAlServicio() {
-        WorkOrderEventConsumer consumer = new WorkOrderEventConsumer(parser, service);
+        WorkOrderEventConsumer consumer = crearConsumer();
 
         ConsumerRecord<String, String> record =
                 new ConsumerRecord<>("digitalfix.workorders.events", 0, 11L, "OT-0002", "{no es json");
