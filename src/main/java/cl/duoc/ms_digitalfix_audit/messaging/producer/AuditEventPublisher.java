@@ -52,16 +52,23 @@ public class AuditEventPublisher {
         // Misma clave que el topico de origen: todos los registros de una
         // orden caen en la misma particion y se leen en el orden en que
         // audit los proceso.
-        kafkaTemplate.send(topicoAuditEvents, entidad.getOrdenId(), payload)
-                .whenComplete((resultado, error) -> {
-                    if (error != null) {
-                        log.error("[audit] no se pudo publicar el registro {} en {}: {}",
-                                evento.eventId(), topicoAuditEvents, error.getMessage());
-                    } else {
-                        log.info("[audit] registro {} publicado en {} particion {}",
-                                evento.eventId(), topicoAuditEvents,
-                                resultado.getRecordMetadata().partition());
-                    }
-                });
+        // send() puede fallar de forma sincrona (metadatos, id de productor
+        // idempotente) fuera del alcance de whenComplete.
+        try {
+            kafkaTemplate.send(topicoAuditEvents, entidad.getOrdenId(), payload)
+                    .whenComplete((resultado, error) -> {
+                        if (error != null) {
+                            log.error("[audit] no se pudo publicar el registro {} en {}: {}",
+                                    evento.eventId(), topicoAuditEvents, error.getMessage());
+                        } else {
+                            log.info("[audit] registro {} publicado en {} particion {}",
+                                    evento.eventId(), topicoAuditEvents,
+                                    resultado.getRecordMetadata().partition());
+                        }
+                    });
+        } catch (RuntimeException e) {
+            log.error("[audit] no se pudo publicar el registro {} en {}: {}",
+                    evento.eventId(), topicoAuditEvents, e.getMessage());
+        }
     }
 }
